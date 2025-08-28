@@ -1,0 +1,1 @@
+northstar-delivery-slots-plugin
