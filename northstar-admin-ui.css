@@ -1,0 +1,92 @@
+/* Admin Calendar visuals: minimal tile layout with % borders */
+
+
+#nsds-calendar { margin-top: 12px; }
+.nsds-controls { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.nsds-flex-spacer { flex: 1 1 auto; }
+.nsds-legend .legend { display:inline-block; padding:4px 8px; margin-left:6px; border-radius:6px; border:1px solid #ddd; }
+.nsds-legend .delivery { background:#E8F5E9; color:#1B5E20; }
+.nsds-legend .removal  { background:#E3F2FD; color:#0D47A1; }
+.nsds-legend .blocked  { background:#FFEBEE; color:#B71C1C; }
+.nsds-legend .border.green  { border-color:#2E7D32; }
+.nsds-legend .border.yellow { border-color:#F9A825; }
+.nsds-legend .border.orange { border-color:#EF6C00; }
+.nsds-legend .border.red    { border-color:#C62828; }
+
+.nsds-lock-toggle { display:flex; align-items:center; gap:6px; font-weight:600; }
+.nsds-lock-hint { color:#666; font-size:12px; }
+.nsds-hint { color:#555; font-size:12px; margin:6px 0; }
+
+/* Event tile base */
+.fc-event { border-width:2px !important; }
+.ns-slot--delivery .fc-event-main,
+.ns-slot--delivery { background:#E8F5E9 !important; color:#1B5E20 !important; }
+.ns-slot--removal .fc-event-main,
+.ns-slot--removal  { background:#E3F2FD !important; color:#0D47A1 !important; }
+.ns-slot--blocked .fc-event-main,
+.ns-slot--blocked  { background:#FFEBEE !important; color:#B71C1C !important; }
+
+/* Border colors by utilization */
+.ns-util--0-75  { border-color:#2E7D32 !important; }
+.ns-util--76-85 { border-color:#F9A825 !important; }
+.ns-util--86-99 { border-color:#EF6C00 !important; }
+.ns-util--100   { border-color:#C62828 !important; }
+
+/* Event content wrapper to position lock icon */
+.ns-event { position: relative; }
+.ns-lock  { position:absolute; top:2px; right:4px; color:#b60000; font-weight:700; }
+
+/* Row layout inside event */
+.ns-row1 { display:flex; align-items:center; justify-content:flex-start; font-weight:600; }
+.ns-row2, .ns-row3, .ns-row4 { margin-top:2px; }
+.ns-row4 .ns-remaining-zero { color:#b60000; font-weight:700; }
+.ns-row5 { margin-top:4px; display:flex; gap:6px; flex-wrap:wrap; }
+
+/* Small “chip” */
+.ns-slot__left { display:inline-block; padding:0 6px; border-radius:9999px; font-weight:600; background:rgba(0,0,0,0.06); }
+.ns-slot__pct { font-size:11px; color:#555; margin-left:6px; }
+
+/* Buttons inside tiles */
+.ns-btn { padding:2px 6px; font-size:11px; line-height:1.6; border:1px solid rgba(0,0,0,0.2); background:#fff; border-radius:4px; cursor:pointer; }
+.ns-btn:hover { background:#f3f3f3; }
+.ns-btn:disabled { opacity:.45; cursor:not-allowed; }
+.ns-btn--danger { color:#b60000; border-color:#d9aeae; background:#fff5f5; }
+.ns-btn--toggle {}
+
+/* --- Modal --- */
+.nsds-hidden { display:none !important; }
+.nsds-modal { position:fixed; inset:0; z-index:99999; }
+.nsds-modal__overlay { position:absolute; inset:0; background:rgba(0,0,0,.35); }
+.nsds-modal__panel { position:relative; margin:5vh auto; max-width:880px; background:#fff; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.2); padding:16px 18px; }
+.nsds-modal__header { display:flex; align-items:center; justify-content:space-between; }
+.nsds-modal__close { font-size:22px; line-height:1; }
+
+/* Form grid */
+.nsds-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:8px; }
+.nsds-grid label { display:flex; flex-direction:column; gap:4px; }
+.nsds-inline { display:flex; gap:6px; align-items:center; }
+
+/* Inline "Enter" button by time fields */
+.ns-inline-btn { padding:2px 8px; font-size:11px; border:1px solid #bbb; background:#fff; border-radius:4px; cursor:pointer; }
+.ns-inline-btn:hover { background:#f3f3f3; }
+
+/* Actions row */
+.nsds-actions-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:8px; }
+.button-link-delete { color:#b60000; }
+
+/* Bookings table */
+.nsds-bookings { margin-top:10px; max-height:300px; overflow:auto; border:1px solid #e5e5e5; border-radius:8px; }
+.nsds-bookings table { width:100%; border-collapse:collapse; }
+.nsds-bookings th, .nsds-bookings td { padding:6px 8px; border-bottom:1px solid #eee; }
+.nsds-bookings tr:nth-child(even) { background:#fafafa; }
+.nsds-setup-no { color:#b60000; font-weight:600; }
+
+/* Mini-calendar selected highlight for Add modal */
+.nsds-selected-delivery [data-date].fc-daygrid-day-frame,
+.fc-daygrid-day.nsds-selected-delivery { background:#E8F5E9 !important; }
+.nsds-selected-removal [data-date].fc-daygrid-day-frame,
+.fc-daygrid-day.nsds-selected-removal  { background:#E3F2FD !important; }
+
+/* Safer fallback targeting cell by class on the <td> */
+.fc-daygrid-day.nsds-selected-delivery { background:#E8F5E9 !important; }
+.fc-daygrid-day.nsds-selected-removal  { background:#E3F2FD !important; }
