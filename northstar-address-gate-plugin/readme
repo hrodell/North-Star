@@ -1,1 +1,4 @@
-
+Plugin Name: NorthStar Address Gate (Plugin)
+Description: Requires delivery address confirmation before add-to-cart. Provides a soft ZIP check banner and a hard address modal. Enforces a server-side fallback if JS fails. Includes a blocklist and pre-fills checkout fields.
+Version: 1.3.0
+Author: North Star
