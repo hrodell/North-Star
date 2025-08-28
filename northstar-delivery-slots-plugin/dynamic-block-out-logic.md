@@ -23,6 +23,11 @@ Implement a configurable global block out period (in hours) that restricts custo
     > “This delivery time is currently unavailable. Orders must be placed at least [block out hours] before delivery to allow for preparation.”
   - Block out changes take effect immediately for all future orders.  
   - Existing orders are **not** affected retroactively.
+ 
+The block out period (in hours) is a configurable global setting, settable by the admin in the NorthStar admin panel.
+Only slots at least [block out hours] after current time are selectable for customers.
+Admin orders bypass block out.
+
 
 ---
 
