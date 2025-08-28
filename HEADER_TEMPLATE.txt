@@ -3,8 +3,8 @@
  * Version: [version_number]
  * Author: North Star
  * Date: [YYYY-MM-DD]
- * Purpose: [short description of what this file does]
- * 
+ * Purpose: [robust description of what this file does]
+ * Robust comments within the code
  * Description:
  * [longer details about logic, usage, dependencies, etc.]
  */
