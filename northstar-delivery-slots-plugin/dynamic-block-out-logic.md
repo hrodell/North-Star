@@ -1,4 +1,9 @@
-NorthStar Delivery Slot – Dynamic Block Out Period Function & Logic Statement
+NorthStar Delivery Slot – Dynamic Time Block Feature Requirements (Additive Only)
+0. Scope & Purpose
+This document ONLY defines the dynamic time block overlay feature for the slot plugin.
+It does NOT redefine or interfere with any other aspect of the current slot plugin, except where time block logic is explicitly stated.
+All existing plugin logic, slot handling, and order flows remain unchanged unless specifically affected by the new time block rules.
+
 1. Purpose
 Implement a configurable global block out period (in hours) that restricts customer ordering for delivery slots, ensuring sufficient operational lead time.
 
@@ -18,8 +23,6 @@ Display the message:
 
 Block out changes take effect immediately for all future orders.
 Existing orders are not affected retroactively.
-The block out period (in hours) is a configurable global setting, settable by the admin in the NorthStar admin panel. Only slots at least [block out hours] after current time are selectable for customers. Admin orders bypass block out.
-
 2a. Global Application
 The block out period is defined once by the admin and applies equally to all products and all delivery slots.
 No exceptions are made for individual products, SKUs, categories, or delivery types.
@@ -107,3 +110,47 @@ Manual block is an explicit lock; time block is a dynamic restriction which admi
 Clarification:
 Time-based block out (based on lead time) is always overridable by admin for any order type.
 Manual block must be lifted by admin before creating or editing an order in that slot, regardless of order type.
+11. Time Block Change Behavior & Tyche Integration
+Customer Experience:
+
+If a customer is in the process of selecting a slot and the block out period is updated, their slot selection is immediately revalidated.
+If the chosen slot is now blocked, a warning is shown:
+“The delivery slot you selected is no longer available due to updated lead time requirements. Please choose a new slot.”
+
+No audit log or notification of block out changes is required.
+Scope:
+
+This feature is strictly limited to time block rules.
+Slot capacity and manual block/unblock logic are handled separately and do not interact with the time block feature.
+Bulk slot operations do not affect time block enforcement.
+Integration:
+
+Tyche/ORDDD must use NorthStar API for enforcing time block rules.
+Tyche’s native time block logic is fully replaced by NorthStar’s implementation for all customer-facing slot selection.
+12. Technical Considerations for Tyche/NorthStar Time Block Integration
+These points are for future dev teams to support robust, maintainable integration:
+
+API Consistency & Reliability
+NorthStar is the authoritative source for slot availability and time block status. Tyche should never independently recalculate time blocks.
+Sync logic must be atomic: whenever Tyche requests slot data, always use NorthStar’s API response for both display and validation.
+If NorthStar API evolves, Tyche must use the correct version; avoid hard-coding endpoints.
+Error Handling & Fallbacks
+If NorthStar API is unreachable, Tyche should display a fallback message and disable booking for affected slots, not allow invalid bookings.
+Cached slot states (if used) should expire quickly to prevent stale enforcement (suggested TTL: 1–5 minutes).
+Always revalidate slot availability and block out status in the backend before confirming an order, even if the UI showed it as available.
+Data Race & Concurrency
+Prevent double-booking by locking slot state or using optimistic concurrency when confirming bookings, especially during high-traffic periods.
+On slot edits or block out value changes, ensure all affected customer sessions are invalidated or revalidated.
+Partial Slot Data
+Ensure Tyche can handle cases where NorthStar API does not return expected fields (e.g., block status, capacity) and fail safely.
+UI/UX Consistency
+Tyche slot selection UI should update instantly when NorthStar block out value changes, and warn customers if their slot choice is invalidated mid-flow.
+Ensure all messaging (blocked slot, manual block, zero capacity) is consistent between Tyche and NorthStar.
+Manual & Capacity Overrides
+Manual block/unblock and capacity must always override time block logic; both systems must respect this hierarchy.
+Testing Edge Cases
+Test bulk slot block/unblock and capacity changes to ensure time block overlay logic is not compromised.
+Test boundary cases around midnight, daylight saving changes, and time zone conversions.
+Integration Documentation
+Document integration points, API contracts, error codes, and fallback behaviors for future developers.
+Include test cases for slot sync, customer booking flow interruptions, and admin overrides.
